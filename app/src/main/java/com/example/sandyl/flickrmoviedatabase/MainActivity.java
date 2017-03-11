@@ -3,7 +3,6 @@ package com.example.sandyl.flickrmoviedatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -20,8 +19,8 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> movies = new ArrayList<String>();
-    ArrayAdapter<String> movieAdapter;
+    ArrayList<Movie> movies = new ArrayList<Movie>();
+    MovieAdapter movieAdapter;
     ListView listView;
     String apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
@@ -33,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
         String url = "https://api.themoviedb.org/3/movie/now_playing?api_key="+apiKey+"";
 
         listView = (ListView) findViewById(R.id.listView);
-        movieAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, movies);
+        movieAdapter = new MovieAdapter(this, movies);
         listView.setAdapter(movieAdapter);
 
         //fetching all movies with api key
         getMovies(url);
-        movieAdapter.notifyDataSetChanged();
+
     }
 
     public void getMovies(String url) {
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Movie movie = new Movie(id, title, overview, image, backdrop, rating, release);
 
-                            movies.add(movie.title);
+                            movies.add(movie);
                         }
 
                         movieAdapter.addAll(movies);
