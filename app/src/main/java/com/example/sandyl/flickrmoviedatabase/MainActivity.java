@@ -1,8 +1,11 @@
 package com.example.sandyl.flickrmoviedatabase;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -29,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String url = "https://api.themoviedb.org/3/movie/now_playing?api_key="+apiKey+"";
+        setTitle("Flickr");
+
+            String url = "https://api.themoviedb.org/3/movie/now_playing?api_key="+apiKey+"";
 
         listView = (ListView) findViewById(R.id.listView);
         movieAdapter = new MovieAdapter(this, movies);
@@ -38,7 +43,29 @@ public class MainActivity extends AppCompatActivity {
         //fetching all movies with api key
         getMovies(url);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startMovieActivity(position);
+            }
+        });
+
     }
+
+    public void  startMovieActivity(int position) {
+        Intent intent = new Intent(MainActivity.this, MovieActivity.class);
+        Movie movie = movies.get(position);
+        intent.putExtra("id", movie._id);
+        intent.putExtra("title", movie.title);
+        intent.putExtra("overview", movie.overview);
+        intent.putExtra("image", movie.poster);
+        intent.putExtra("date", movie.releaseDate);
+        intent.putExtra("url", movie.youtubeUrl);
+
+        startActivity(intent);
+    }
+
 
     public void getMovies(String url) {
 
@@ -61,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONArray jArray = jsonObject.getJSONArray("results");
 
+
+
                     if (jArray != null) {
 
                         for (i=0;i<jArray.length();i++){
@@ -75,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
                             Movie movie = new Movie(id, title, overview, image, backdrop, rating, release);
 
                             movies.add(movie);
+                        }
+
+                        for (i=0;i<movies.size();i++){
+                            Log.v("result movie", ""+movies.get(i).title+"");
                         }
 
                         movieAdapter.addAll(movies);
