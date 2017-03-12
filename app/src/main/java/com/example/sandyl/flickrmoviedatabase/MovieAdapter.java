@@ -48,7 +48,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_movie_layout, null);
+            convertView = getInflatedLayoutForType(movie.rating);
             viewHolder.titleTextView = (TextView) convertView.findViewById(R.id.movieTitle);
             viewHolder.overViewTextView = (TextView) convertView.findViewById(R.id.movieOverview);
 
@@ -76,5 +76,19 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
                 .error(R.drawable.error)
                 .into(ivBasicImage);
     }
+
+    // Given the item type, responsible for returning the correct inflated XML layout file
+    private View getInflatedLayoutForType(int rating) {
+
+        View viewLayout = new View(getContext());
+        if (rating < 6 ) {
+            viewLayout = LayoutInflater.from(getContext()).inflate(R.layout.item_layout_backdrop, null);
+        } else {
+            viewLayout = LayoutInflater.from(getContext()).inflate(R.layout.item_layout_backdrop, null);
+        }
+
+        return viewLayout;
+    }
+
 
 }
