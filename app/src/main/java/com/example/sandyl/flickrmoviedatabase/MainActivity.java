@@ -1,6 +1,7 @@
 package com.example.sandyl.flickrmoviedatabase;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,9 +17,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     MovieAdapter movieAdapter;
     ListView listView;
     String apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed";
+    int i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
                             Movie movie = new Movie(id, title, overview, image, backdrop, rating, release);
 
+                            //function to download and set youtube key
+                            getVideoUrl(movie, id);
+
                             movies.add(movie);
                         }
 
@@ -119,5 +127,66 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void getVideoUrl(final Movie movie, int id)  {
+
+        DownloadYoutubeUrl task = new DownloadYoutubeUrl(movie);
+        task.execute(new String[] { "https://api.themoviedb.org/3/movie/"+id+"/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"});
+
+    }
+
+    private class DownloadYoutubeUrl extends AsyncTask<String, Void, String> {
+
+        Movie movie;
+        public DownloadYoutubeUrl(Movie mov) {
+            this.movie = mov;
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            // we use the OkHttp library from https://github.com/square/okhttp
+            OkHttpClient client = new OkHttpClient();
+            okhttp3.Request request =
+                    new okhttp3.Request.Builder()
+                            .url(urls[0])
+                            .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (response.isSuccessful()) {
+                try {
+                    return response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return "Download failed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                JSONArray jArray = jsonObject.getJSONArray("results");
+
+                String key = jArray.optJSONObject(0).getString("key");
+
+                setVideoUrl(key);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        public void setVideoUrl(String key) {
+            movie.youtubeUrl = key;
+        }
+    }
+
 
 }
