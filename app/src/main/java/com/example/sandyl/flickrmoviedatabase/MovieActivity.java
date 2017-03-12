@@ -23,7 +23,14 @@ public class MovieActivity extends AppCompatActivity {
     String release;
     String youtubeUrl;
     RatingBar ratingBar;
+    int rating;
+
     Button btn;
+
+    TextView movieTextView;
+    TextView voteTextView;
+    TextView overviewTextView;
+    TextView releaseTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +39,13 @@ public class MovieActivity extends AppCompatActivity {
         setTitle("Flickr");
 
         setContentView(R.layout.movie_activity);
-        TextView movieTextView = (TextView) findViewById(R.id.movieTitle);
-        TextView overviewTextView = (TextView) findViewById(R.id.movieOverview);
-        TextView releaseTextView = (TextView) findViewById(R.id.movieReleaseDate);
+
+        movieTextView = (TextView) findViewById(R.id.movieTitle);
+        overviewTextView = (TextView) findViewById(R.id.movieOverview);
+        releaseTextView = (TextView) findViewById(R.id.movieReleaseDate);
+        voteTextView = (TextView) findViewById(R.id.voteTextView);
+
         btn = (Button) findViewById(R.id.playBtn);
-
-        Intent intent = getIntent();
-        id = intent.getIntExtra("id", -1);
-        title = intent.getStringExtra("title");
-        overview = intent.getStringExtra("overview");
-        image = intent.getStringExtra("image");
-        release = intent.getStringExtra("release");
-        youtubeUrl = intent.getStringExtra("url");
-        movieTextView.setText(title);
-        overviewTextView.setText(overview);
-        releaseTextView.setText(release);
-        getImagePicasso("http://image.tmdb.org/t/p/w185/"+image);
-
-        addListenerOnRatingBar();
 
         addListenerOnRatingBar();
 
@@ -64,6 +60,23 @@ public class MovieActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void getActivityIntent() {
+
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id", -1);
+        title = intent.getStringExtra("title");
+        overview = intent.getStringExtra("overview");
+        image = intent.getStringExtra("image");
+        release = intent.getStringExtra("release");
+        youtubeUrl = intent.getStringExtra("url");
+        rating = intent.getIntExtra("rating", -1);
+        movieTextView.setText(title);
+        overviewTextView.setText(overview);
+        releaseTextView.setText(release);
+
+        getImagePicasso("http://image.tmdb.org/t/p/w185/"+image);
     }
 
     @Override
@@ -100,7 +113,9 @@ public class MovieActivity extends AppCompatActivity {
     public void addListenerOnRatingBar() {
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-        // txtRatingValue = (TextView) findViewById(R.id.txtRatingValue);
+        ratingBar.setNumStars(10);
+        ratingBar.setRating(rating);
+        voteTextView.setText(""+rating+"/10");
 
         //if rating value is changed,
         //display the current rating value in the result (textview) automatically

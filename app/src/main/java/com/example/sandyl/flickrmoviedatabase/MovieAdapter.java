@@ -52,12 +52,20 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             viewHolder.titleTextView = (TextView) convertView.findViewById(R.id.movieTitle);
             viewHolder.overViewTextView = (TextView) convertView.findViewById(R.id.movieOverview);
 
-            viewHolder.titleTextView.setText(movie.title);
-            viewHolder.overViewTextView.setText(movie.overview);
-            convertView.setTag(viewHolder);
+            if (movie.rating < 6) {
 
-            //Picasso
-            getImagePicasso("http://image.tmdb.org/t/p/w185/"+movie.poster, convertView);
+                viewHolder.titleTextView.setText(movie.title);
+                viewHolder.overViewTextView.setText(movie.overview);
+
+                convertView.setTag(viewHolder);
+
+                //Picasso
+                getImagePicasso("http://image.tmdb.org/t/p/w185/"+movie.poster, convertView);
+
+            } else {
+                getImagePicasso("http://image.tmdb.org/t/p/original/"+movie.backdrop, convertView);
+            }
+
 
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -82,7 +90,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         View viewLayout = new View(getContext());
         if (rating < 6 ) {
-            viewLayout = LayoutInflater.from(getContext()).inflate(R.layout.item_layout_backdrop, null);
+            viewLayout = LayoutInflater.from(getContext()).inflate(R.layout.item_movie_layout, null);
         } else {
             viewLayout = LayoutInflater.from(getContext()).inflate(R.layout.item_layout_backdrop, null);
         }

@@ -1,5 +1,6 @@
 package com.example.sandyl.flickrmoviedatabase;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,15 +48,33 @@ public class MainActivity extends AppCompatActivity {
 
         //fetching all movies with api key
         getMovies(url);
+      //  sort(movies);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startMovieActivity(position);
+                //startMovieActivity(position);
+                showMovieFragment(position);
             }
         });
 
+    }
+
+    public void showMovieFragment(int position) {
+        FragmentManager fm = getFragmentManager();
+        MovieFragment dialogFragment = new MovieFragment();
+        Bundle args = new Bundle();
+        Movie movie = movies.get(position);
+        args.putInt("id", movie._id);
+        args.putString("title", movie.title);
+        args.putString("overview", movie.overview);
+        args.putString("image", movie.poster);
+        args.putString("date", movie.releaseDate);
+        args.putString("url", movie.youtubeUrl);
+        args.putInt("rating", movie.rating);
+        dialogFragment.setArguments(args);
+        dialogFragment.show(fm, "Sample Fragment");
     }
 
     public void  startMovieActivity(int position) {
@@ -67,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("image", movie.poster);
         intent.putExtra("date", movie.releaseDate);
         intent.putExtra("url", movie.youtubeUrl);
+        intent.putExtra("rating", movie.rating);
 
         startActivity(intent);
     }

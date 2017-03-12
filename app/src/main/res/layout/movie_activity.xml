@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_movie"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
     android:orientation="vertical"
     android:background="#666666"
     tools:context="com.example.sandyl.flickrmoviedatabase.MovieActivity">
@@ -65,6 +66,18 @@
 
 
     <TextView
+        android:id="@+id/voteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="20dp"
+        android:text="vote"
+        android:textColor="#ffffff"
+        />
+
+    <TextView
         android:id="@+id/movieOverview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,7 +85,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="40dp"
         android:layout_marginRight="20dp"
-        android:text="Overvuew"
+        android:text="Overview"
         android:textColor="#ffffff"
         />
 
