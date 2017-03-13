@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         setTitle("Flickr");
 
-            String url = "https://api.themoviedb.org/3/movie/now_playing?api_key="+apiKey+"";
+                String url = "https://api.themoviedb.org/3/movie/now_playing?api_key="+apiKey+"";
 
         listView = (ListView) findViewById(R.id.listView);
         movieAdapter = new MovieAdapter(this, movies);
