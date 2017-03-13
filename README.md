@@ -1,10 +1,9 @@
 
-# FlickrMovieDatabase
-A read-only movie listing app using the Movie Database API
 
-# Project 1 - *Name of App Here*
 
-**Name of your app** shows the latest movies currently playing in theaters. The app utilizes the Movie Database API to display images and basic information about these movies to the user.
+# Project 1 - * Flickr Movie Database*
+
+**Flickr Movie Database** is a read-only movie listing app using the Movie Database API showing the latest movies currently playing in theaters. The app utilizes the Movie Database API to display images and basic information about these movies to the user.
 
 Time spent: **X** hours spent in total
 
@@ -37,13 +36,15 @@ The following **bonus** features are implemented:
 
 The following **additional** features are implemented:
 
+* [x] DialogFragment (replacing original Activity) to show title, overview and rating
 * [ ] List anything else that you can get done to improve the app functionality!
+
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+[![ScreenShot](flickr.png)](https://youtu.be/Jv4OIaotwVU)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
